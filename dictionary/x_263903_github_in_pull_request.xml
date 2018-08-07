@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Pull Request" max_length="40" name="x_263903_github_in_pull_request" type="collection">
+        <element label="Assignees" max_length="1000" name="assignees" type="string"/>
+        <element label="Base Branch" max_length="400" name="base_branch" type="string"/>
+        <element label="Creator" max_length="100" name="creator" type="string"/>
+        <element display="true" label="HTML URL" max_length="400" name="html_url" type="string"/>
+        <element label="ID" max_length="50" name="id" type="string"/>
+        <element label="Labels" max_length="1000" name="labels" type="string"/>
+        <element label="Number" max_length="50" name="number" type="string"/>
+        <element label="Repo Name" max_length="200" name="repo_name" type="string"/>
+        <element label="Reviewers" max_length="1000" name="reviewers" type="string"/>
+        <element label="State" max_length="100" name="state" type="string"/>
+        <element label="Target Branch" max_length="400" name="target_branch" type="string"/>
+    </element>
+</database>

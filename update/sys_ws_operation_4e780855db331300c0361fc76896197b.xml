@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>create</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var PULL_REQUEST_TABLE = 'x_263903_github_in_pull_request';
+	
+	function fillPullRequestFields(gr, pr) {
+		gr.id = pr.id;
+		gr.number = pr.number;
+		gr.html_url = pr.html_url;
+		gr.repo_name = pr.head.repo.name;
+		gr.state = pr.state;
+		gr.creator = pr.user.login;
+		
+		var assignees = pr.assignees.map(function(assignee) {
+			return assignee.login;
+		});
+		gr.assignees = assignees.join(',');
+		
+		var reviewers = pr.requested_reviewers.map(function(reviewer) {
+			return reviewer.login;
+		});
+		gr.reviewers = reviewers.join(',');
+		
+		var labels = pr.labels.map(function(label) {
+			return label.name;
+		});
+		gr.labels = labels.join(',');
+		
+		gr.target_branch = pr.head.ref;
+		gr.base_branch = pr.base.ref;
+	}
+
+	function upsertPullRequest(pr) {
+		var gr = new GlideRecord(PULL_REQUEST_TABLE);
+		var existed = gr.get('id', pr.id);
+		if (!existed) {
+			var ir = new GlideRecord(PULL_REQUEST_TABLE);
+			ir.initialize();
+			fillPullRequestFields(ir, pr);
+			ir.insert();
+			return ir.number;
+		}
+		fillPullRequestFields(gr, pr);
+		gr.update();
+		return gr.number;
+	}
+	
+	var payload = request.body.data;
+	var gr = upsertPullRequest(payload.pull_request);
+	response.setBody({ test: String(gr) });
+	
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_263903_github_in/pull_request</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>false</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-07 06:10:22</sys_created_on>
+        <sys_id>4e780855db331300c0361fc76896197b</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>create</sys_name>
+        <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
+        <sys_update_name>sys_ws_operation_4e780855db331300c0361fc76896197b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-07 06:21:07</sys_updated_on>
+        <web_service_definition display_value="Pull Request">7f588455db331300c0361fc768961996</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

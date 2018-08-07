@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_module">
+    <sys_ui_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Github Integration">d8580455db331300c0361fc7689619f4</application>
+        <filter/>
+        <name>Pull Requests</name>
+        <order/>
+        <path/>
+        <path_relative_to_root>false</path_relative_to_root>
+        <roles>x_263903_github_in.pull_request_user</roles>
+        <sys_class_name>sys_ui_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-07 06:09:12</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>dc580455db331300c0361fc7689619f6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Pull Requests</sys_name>
+        <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
+        <sys_update_name>sys_ui_module_dc580455db331300c0361fc7689619f6</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-07 06:09:12</sys_updated_on>
+        <table>x_263903_github_in_pull_request</table>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+    </sys_ui_module>
+</record_update>
