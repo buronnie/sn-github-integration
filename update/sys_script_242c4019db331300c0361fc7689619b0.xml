@@ -28,64 +28,21 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
-	var CREDENTIAL_TABLE = 'x_263903_github_in_credential';
 	var READY_FOR_TESTING_LABEL = 'Ready for Testing';
 	var TEAM_LABEL = 'genui';
 	var TEAM_MEMBERS = ['kai-guo', 'cuong-tran', 'abe-chin'];
 	
-	function getCredential(domain, type) {
-		var secretGR = new GlideRecord(CREDENTIAL_TABLE);
-		secretGR.addQuery('domain', domain);		
-		secretGR.addQuery('type', type);
-		secretGR.query();
-		if (secretGR.next()) {
-			return String(secretGR.value);
-		}
-		return false;
-	}
-	
-	var githubToken = getCredential('Github', 'api token');
-	
+	var credentialUtil = new Credential();
+	var githubToken = credentialUtil.getCredential('Github', 'api token');
 	if (!githubToken) {
 		return;
 	}
 	
-	function addLabels(repoName, prNumber, labels) {
-		var sm = new sn_ws.RESTMessageV2();
-		var url = 'https://code-test.devsnc.com/api/v3/repos/dev/' + repoName +
-				  '/issues/' + prNumber + '/labels?access_token=' + githubToken;
-		sm.setEndpoint(url);
-		sm.setHttpMethod('POST');
-		sm.setRequestHeader('Content-Type', 'application/json');
-		sm.setRequestBody(JSON.stringify(labels));
-		return sm.execute();
-	}
+	var labelUtil = new Label(githubToken);
+	var reviewerUtil = new Reviewer(githubToken, TEAM_MEMBERS);
 	
-	function addReviewers(repoName, prNumber, prCreator) {
-		var reviewers = [];
-		for (var i = 0; i < TEAM_MEMBERS.length; i++) {
-			if (TEAM_MEMBERS[i] !== prCreator) {
-				reviewers.push(TEAM_MEMBERS[i]);
-			}
-		}
-		if (reviewers.length === 0) {
-			return;
-		}
-		gs.warn(prCreator);
-		gs.warn(TEAM_MEMBERS);
-		gs.warn(reviewers);
-		var sm = new sn_ws.RESTMessageV2();
-		var url = 'https://code-test.devsnc.com/api/v3/repos/dev/' + repoName +
-				  '/pulls/' + prNumber + '/requested_reviewers?access_token=' + githubToken;
-		sm.setEndpoint(url);
-		sm.setHttpMethod('POST');
-		sm.setRequestHeader('Content-Type', 'application/json');
-		sm.setRequestBody(JSON.stringify({"reviewers": reviewers }));
-		return sm.execute();
-	}
-	
-	addLabels(current.repo_name, current.number, [TEAM_LABEL, READY_FOR_TESTING_LABEL]);
-	addReviewers(current.repo_name, current.number, String(current.creator));
+	labelUtil.addLabels(String(current.repo_name), String(current.number), [TEAM_LABEL, READY_FOR_TESTING_LABEL]);
+	reviewerUtil.addReviewers(String(current.repo_name), String(current.number), String(current.creator));
 	
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -94,7 +51,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>242c4019db331300c0361fc7689619b0</sys_id>
-        <sys_mod_count>20</sys_mod_count>
+        <sys_mod_count>36</sys_mod_count>
         <sys_name>pull_request_created_by_general_ui_team</sys_name>
         <sys_overrides/>
         <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
@@ -102,7 +59,7 @@
         <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
         <sys_update_name>sys_script_242c4019db331300c0361fc7689619b0</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-07 07:50:07</sys_updated_on>
+        <sys_updated_on>2018-08-07 17:30:08</sys_updated_on>
         <template/>
         <when>async</when>
     </sys_script>

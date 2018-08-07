@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_263903_github_in.Label</api_name>
+        <client_callable>false</client_callable>
+        <description>Util methods to manipulate labels for a PR</description>
+        <name>Label</name>
+        <script><![CDATA[var Label = Class.create();
+Label.prototype = {
+    initialize: function(githubToken) {
+		this.githubToken = githubToken;
+    },
+	
+	addLabels: function (repoName, prNumber, labels) {
+		var sm = new sn_ws.RESTMessageV2();
+		var url = 'https://code-test.devsnc.com/api/v3/repos/dev/' + repoName +
+				  '/issues/' + prNumber + '/labels?access_token=' + this.githubToken;
+		sm.setEndpoint(url);
+		sm.setHttpMethod('POST');
+		sm.setRequestHeader('Content-Type', 'application/json');
+		sm.setRequestBody(JSON.stringify(labels));
+		return sm.execute();
+	},
+
+    type: 'Label'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-07 15:38:56</sys_created_on>
+        <sys_id>7a998215db331300c0361fc7689619ce</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Label</sys_name>
+        <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
+        <sys_update_name>sys_script_include_7a998215db331300c0361fc7689619ce</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-07 15:41:51</sys_updated_on>
+    </sys_script_include>
+</record_update>
