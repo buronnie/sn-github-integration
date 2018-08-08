@@ -8,8 +8,9 @@
         <name>Reviewer</name>
         <script><![CDATA[var Reviewer = Class.create();
 Reviewer.prototype = {
-    initialize: function(githubToken, teamMembers) {
+    initialize: function(githubToken, githubUrl, teamMembers) {
 		this.githubToken = githubToken;
+		this.githubUrl = githubUrl;
 		this.teamMembers = teamMembers;
     },
 
@@ -22,8 +23,8 @@ Reviewer.prototype = {
 			return;
 		}
 		var sm = new sn_ws.RESTMessageV2();
-		var url = 'https://code-test.devsnc.com/api/v3/repos/dev/' + repoName +
-				  '/pulls/' + prNumber + '/requested_reviewers?access_token=' + this.githubToken;
+		var url = this.githubUrl + '/' + repoName + '/pulls/' + prNumber + 
+			      '/requested_reviewers?access_token=' + this.githubToken;
 		sm.setEndpoint(url);
 		sm.setHttpMethod('POST');
 		sm.setRequestHeader('Content-Type', 'application/json');
@@ -37,13 +38,13 @@ Reviewer.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-08-07 15:46:01</sys_created_on>
         <sys_id>9bbb8a55db331300c0361fc7689619fd</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>Reviewer</sys_name>
         <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
         <sys_update_name>sys_script_include_9bbb8a55db331300c0361fc7689619fd</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-07 17:35:32</sys_updated_on>
+        <sys_updated_on>2018-08-08 02:51:04</sys_updated_on>
     </sys_script_include>
 </record_update>

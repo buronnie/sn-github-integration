@@ -8,14 +8,15 @@
         <name>Label</name>
         <script><![CDATA[var Label = Class.create();
 Label.prototype = {
-    initialize: function(githubToken) {
+    initialize: function(githubToken, githubUrl) {
 		this.githubToken = githubToken;
+		this.githubUrl = githubUrl;
     },
 	
 	addLabels: function (repoName, prNumber, labels) {
 		var sm = new sn_ws.RESTMessageV2();
-		var url = 'https://code-test.devsnc.com/api/v3/repos/dev/' + repoName +
-				  '/issues/' + prNumber + '/labels?access_token=' + this.githubToken;
+		var url = this.githubUrl + '/' + repoName + '/issues/' + prNumber +
+			      '/labels?access_token=' + this.githubToken;
 		sm.setEndpoint(url);
 		sm.setHttpMethod('POST');
 		sm.setRequestHeader('Content-Type', 'application/json');
@@ -29,13 +30,13 @@ Label.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-08-07 15:38:56</sys_created_on>
         <sys_id>7a998215db331300c0361fc7689619ce</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>Label</sys_name>
         <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
         <sys_update_name>sys_script_include_7a998215db331300c0361fc7689619ce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-07 15:41:51</sys_updated_on>
+        <sys_updated_on>2018-08-08 02:49:48</sys_updated_on>
     </sys_script_include>
 </record_update>

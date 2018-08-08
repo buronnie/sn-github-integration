@@ -28,18 +28,24 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
-	var READY_FOR_TESTING_LABEL = 'Ready for Testing';
-	var TEAM_LABEL = 'genui';
 	var TEAM_MEMBERS = ['kai-guo', 'cuong-tran', 'abe-chin'];
-	
-	var credentialUtil = new Credential();
-	var githubToken = credentialUtil.getCredential('Github', 'api token');
-	if (!githubToken) {
+	if (TEAM_MEMBERS.indexOf(String(current.creator)) === -1) {
 		return;
 	}
 	
-	var labelUtil = new Label(githubToken);
-	var reviewerUtil = new Reviewer(githubToken, TEAM_MEMBERS);
+	var READY_FOR_TESTING_LABEL = 'Ready for Testing';
+	var TEAM_LABEL = 'genui';
+	
+	var credentialUtil = new Credential();
+	var credential = credentialUtil.getCredentialGlideRecord('Github', 'api token');
+	if (!credential) {
+		return;
+	}
+	var githubToken = credential.token;
+	var githubUrl = credential.url;
+	
+	var labelUtil = new Label(githubToken, githubUrl);
+	var reviewerUtil = new Reviewer(githubToken, githubUrl, TEAM_MEMBERS);
 	
 	labelUtil.addLabels(String(current.repo_name), String(current.number), [TEAM_LABEL, READY_FOR_TESTING_LABEL]);
 	reviewerUtil.addReviewers(String(current.repo_name), String(current.number), String(current.creator));
@@ -51,7 +57,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>242c4019db331300c0361fc7689619b0</sys_id>
-        <sys_mod_count>36</sys_mod_count>
+        <sys_mod_count>48</sys_mod_count>
         <sys_name>pull_request_created_by_general_ui_team</sys_name>
         <sys_overrides/>
         <sys_package display_value="github_integration" source="x_263903_github_in">a0670415db331300c0361fc768961961</sys_package>
@@ -59,7 +65,7 @@
         <sys_scope display_value="github_integration">a0670415db331300c0361fc768961961</sys_scope>
         <sys_update_name>sys_script_242c4019db331300c0361fc7689619b0</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-07 17:30:08</sys_updated_on>
+        <sys_updated_on>2018-08-08 04:31:43</sys_updated_on>
         <template/>
         <when>async</when>
     </sys_script>
